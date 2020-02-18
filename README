@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------
+| Gherman Maria Irina ____  ____  _  _   __     ____           324 CB         |
+|                    (_  _)(  __)( \/ ) / _\   (___ \                         |
+|                      )(   ) _) / \/ \/    \   / __/                         |
+|                     (__) (____)\_)(_/\_/\_/  (____)                         |
+|                                                                             |
+-------------------------------------------------------------------------------
+
+    In aceasta tema am ales o implementare bazata pe ArrayList-uri de TreeSets.
+    Am ales TreeSet deoarece datele sunt pastrate sortate in ordine 
+crescatoare, iar accesarea elementului minim se face in O(1).
+
+    In continuare o sa analizez fiecare clasa/fisier si metoda importanta
+(nu cred ca este nevoie sa detaliez ce face un getter).
+
+ * Room - clasa de baza pentru modelarea obiectelor
+
+     * Aceasta contine un nume, doi senzori si o valoare a ariei.
+     * Metodele sunt majoritar getters, implementarea propriu zisa a taskurilor
+    este realizata in alte clase.
+
+ * Sensor - alta clasa de baza
+
+     * Contine un id si ArrayList-ul de TreeSets. Fiecare element al 
+    ArrayListului reprezinta un bucket cu o anumita ora (ArrayList[16] -> 
+    bucket-ul de valori inregistrate cu [16, 17) ore inainte de timpul de 
+    referinta).
+     * listHour -> afiseaza bucket-ul cu indicele dat ca parametru (in ordine
+    crescatoare, transferand elementele intr-un TreeSet temporar, pentru ca nu
+    putem itera prin TreeSet)
+
+ * Database - clasa care stocheaza camerele
+
+     * trigger / triggerH -> metoda care implementeaza propriu-zis comanda.
+    Pentru fiecare camera din database calculeaza ultima ora la care exista
+    date inregistrare si face media. In functie de conditii, returneaza
+    true sau false.
+
+ * ReadFromFile - clasa ajutatoare pentru citire / scriere, un fel de wrapper
+                  customizat in functie de nevoile mele
+
+ * Main - main-ul, obviously
+
+     * Partea de citire a datelor nu cred ca necesita explicatii. Restul este
+    destul de straigh-forward: citim comanda si apelam functiile necesare.
+     * De mentionat este sistemul in care sunt stocate timestamp-urile in 
+    buckets: calculam ref - time / 3600, adica "hour" peste tot prin program 
+    reprezinta "cu x ore in urma ref-ului".
